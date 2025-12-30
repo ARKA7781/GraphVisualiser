@@ -1,0 +1,302 @@
+/* ---------- GLOBAL ---------- */
+body{
+  margin:10;
+  background:#220c0c;
+  color:white;
+  font-family:Arial;
+}
+
+/* ---------- HEADER ---------- */
+header{
+  text-align:center;
+  padding:20px;
+  background:#331111;
+  border-bottom:2px solid #ff4c4c;
+}
+
+/* ---------- TABS ---------- */
+.tabs{
+  display:flex;
+  gap:5px;
+  background:#30120f;
+  padding:10px;
+}
+
+.tab{
+  padding:10px 20px;
+  background:#481c1b;
+  border:none;
+  color:white;
+  cursor:pointer;
+  border-radius:8px;
+  transition:.2s;
+}
+
+.tab.active{
+  background:#ff554c;
+}
+
+.tab:hover{
+  background:#cc3535;
+}
+
+main{
+  padding:20px;
+}
+
+.tabContent{
+  display:none;
+}
+
+.tabContent.active{
+  display:block;
+}
+
+/* ---------- SECTION TITLE ---------- */
+.tabContent h2{
+  margin-bottom:12px;
+  font-size:24px;
+  font-weight:700;
+  color:#ffcfcf;
+}
+
+/* ---------- PANEL CARD (APPLIES TO ALL TABS) ---------- */
+.controlPanel{
+  background: linear-gradient(140deg, #2a100f, #240a0a);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 10px;
+
+  border: 1px solid rgba(255,255,255,.1);
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.6),
+    inset 0 0 30px rgba(255,255,255,.03);
+
+  display: grid;
+  gap: 12px;
+}
+
+/* ---------- LABELS ---------- */
+.controlPanel label{
+  font-size:14px;
+  color:#ff9f9f;
+  font-weight:600;
+}
+
+/* ---------- INPUTS ---------- */
+.controlPanel input[type="text"],
+.controlPanel input[type="number"]{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.1);
+  color:white;
+  outline:none;
+  transition:.25s;
+}
+
+.controlPanel input[type="text"]:focus,
+.controlPanel input[type="number"]:focus{
+  border-color:#ff7070;
+  box-shadow:0 0 12px rgba(255, 112, 112, 0.6);
+}
+
+/* ---------- POLYNOMIAL SPECIAL INPUT ---------- */
+#polyInput{
+  width:100%;
+  padding:14px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255, 100, 100, 0.5);
+  background:linear-gradient(135deg,#481c1b,#300f0f);
+  color:white;
+  font-size:15px;
+  letter-spacing:.4px;
+  outline:none;
+  transition:.25s;
+}
+
+#polyInput::placeholder{
+  color:#ffcdcd;
+  font-weight:500;
+  opacity:0.9;
+}
+
+#polyInput:focus{
+  border-color:#ff6e6e;
+  box-shadow:0 0 20px rgba(255, 76, 76, 0.6);
+  background:linear-gradient(135deg,#702323,#300f0f);
+}
+
+/* ---------- SELECT DROPDOWNS ---------- */
+.controlPanel select{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  color:white;
+  outline:none;
+}
+
+.controlPanel select:focus{
+  border-color:#ff6e6e;
+  box-shadow:0 0 12px rgba(255, 76, 76, 0.6);
+}
+
+/* ---------- RANGE SLIDER ---------- */
+input[type="range"]{
+  --webkit-appearance:none;
+  width:100%;
+  height:10px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#ff4f4f,#ff9e9e);
+  outline:none;
+  cursor:pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:white;
+  border:2px solid #ff4f4f;
+}
+
+input[type="range"]::-moz-range-thumb{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:white;
+  border:2px solid #ff4f4f;
+}
+
+/* ---------- CHECKBOX ---------- */
+input[type="checkbox"]{
+  width:16px;
+  height:16px;
+  accent-color:#ff4f4f;
+  cursor:pointer;
+}
+
+/* ---------- BUTTONS (GLOBAL) ---------- */
+button,
+.controlPanel button{
+  background:linear-gradient(135deg,#ff4c4c,#f70202);
+  border:none;
+  padding:12px;
+  border-radius:12px;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(255, 76, 76, 0.5);
+  transition:.25s;
+}
+
+button:hover,
+.controlPanel button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 20px 40px rgba(255, 76, 76, 0.8);
+}
+
+button:active,
+.controlPanel button:active{
+  transform:scale(.96);
+}
+
+/* ---------- GRAPH AREA ---------- */
+.graph{
+  width:100%;
+  height:480px;
+  border-radius:10px;
+  background:#300f0f;
+}
+
+/* ---------- FOOTER ---------- */
+footer{
+  text-align:center;
+  padding:10px;
+  background:#300f0f;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media(max-width: 900px){
+
+  body{
+    margin:0;
+  }
+
+  header h1{
+    font-size: 20px;
+  }
+
+  /* Tabs become full width buttons */
+  .tabs{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tab{
+    width: 48%;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .tabContent h2{
+    font-size: 18px;
+    text-align: center;
+  }
+
+  /* Control Panels stack items vertically */
+  .controlPanel{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .controlPanel label{
+    font-size: 12px;
+  }
+
+  .controlPanel input,
+  .controlPanel select{
+    font-size: 14px;
+  }
+
+  /* Graph size */
+  .graph{
+    height: 320px;
+  }
+
+  footer{
+    font-size: 12px;
+  }
+}
+
+
+/* ======= Small Phones (< 600px) ======= */
+@media(max-width: 600px){
+
+  header h1{
+    font-size: 18px;
+  }
+
+  .tab{
+    width: 100%;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  main{
+    padding: 10px;
+  }
+
+  .graph{
+    height: 280px;
+  }
+
+  .controlPanel{
+    padding: 14px;
+  }
+}

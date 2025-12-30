@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Graph Visualization Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header>
+  <h1>Understand the graphs visually</h1>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="polyTab">Polynomial</button>
+  <button class="tab" data-tab="trigTab">Trigonometry</button>
+  <button class="tab" data-tab="paramTab">Parametric</button>
+  <button class="tab" data-tab="threeDTab">3D</button>
+</nav>
+
+<main>
+
+<!-- Polynomial -->
+<section id="polyTab" class="tabContent active">
+  <h2>Polynomial + Calculus</h2>
+
+  <div class="controlPanel">
+    <h4>Example:- 3x^3 - 2x^2 + x -1</h4>
+    <input id="polyInput" placeholder="Enter Polynomial">
+
+    <label>X Range</label>
+    <div class="place"><input type="number" id="polyXMin" value="-10">
+    <input type="number" id="polyXMax" value="10">
+    </div>
+
+    <label>Y Range</label>
+    <div class="place">
+    <input type="number" id="polyYMin" value="-20">
+    <input type="number" id="polyYMax" value="20">
+    </div>
+
+    <label><input type="checkbox" id="showDerivative" checked> Show Derivative</label>
+
+    <button onclick="plotPolynomial()">Plot</button>
+  </div>
+
+  <div id="polyGraph" class="graph"></div>
+</section>
+
+<!-- Trig -->
+<section id="trigTab" class="tabContent">
+  <h2>Trigonometric Visualizer</h2>
+
+  <div class="controlPanel">
+    <select id="trigFunc">
+      <option value="sin">sin(x)</option>
+      <option value="cos">cos(x)</option>
+      <option value="tan">tan(x)</option>
+      <option value="sec">sec(x)</option>
+      <option value="cosec">cosec(x)</option>
+      <option value="cot">cot(x)</option>
+    </select>
+
+    <label>A (Amplitude)</label><input type="number" id="amp" value="1">
+    <label>B (Frequency)</label><input type="number" id="freq" value="1">
+    <label>C (Phase Shift)</label><input type="number" id="phase" value="0">
+    <label>D (Vertical Shift)</label><input type="number" id="shift" value="0">
+
+    <button onclick="plotTrig()">Plot</button>
+  </div>
+
+  <div id="trigGraph" class="graph"></div>
+</section>
+
+<!-- Parametric -->
+<section id="paramTab" class="tabContent">
+  <h2>Parametric Curves</h2>
+
+  <div class="controlPanel">
+    <select id="paramType">
+      <option value="circle">Circle</option>
+      <option value="heart">Heart</option>
+      <option value="butterfly">Butterfly</option>
+      <option value="rose">Rose</option>
+    </select>
+
+    <button onclick="plotParametric()">Plot</button>
+  </div>
+
+  <div id="paramGraph" class="graph"></div>
+</section>
+
+<!-- 3D -->
+<section id="threeDTab" class="tabContent">
+  <h2>3D Graph Visualizer</h2>
+
+  <div class="controlPanel">
+    <input id="threeDFunc" value="sin(x)+cos(y)">
+    <button onclick="plot3D()">Plot</button>
+  </div>
+
+  <div id="threeDGraph" class="graph"></div>
+</section>
+
+</main>
+
+<footer>
+  Graph visualiser by Arka7781
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
