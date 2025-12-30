@@ -7,6 +7,11 @@ import math
 
 app = FastAPI()
 
+@app.get("/")
+def home():
+    return {"message": "Backend is running 🚀"}
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # change to domain when deploying
