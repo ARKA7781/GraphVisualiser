@@ -12,7 +12,7 @@ tabs.forEach(tab=>{
   });
 });
 
-const API="http://127.0.0.1:8000";
+const API = "https://graphvisualiser-1.onrender.com";
 
 // ----- Polynomial -----
 async function plotPolynomial(){
