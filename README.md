@@ -1,26 +1,30 @@
-# 🧠 Graph Visualiser
+## 📊 Math Graph Visualization Hub
+An interactive web application to help students and learners understand mathematics visually. This tool allows users to dynamically generate and analyze different types of graphs using adjustable parameters and intuitive UI controls.
 
-Graph Visualiser is an interactive tool designed to help students and developers **create, visualize, and understand graph structures and algorithms** in a simple and intuitive way.  
-It provides clear visual representation of nodes, edges, and algorithm execution like **BFS, DFS, and Shortest Path**, making graph learning easy and engaging.
-
----
-
-## 🚀 Features
-
-- ✔️ Create and visualize directed/undirected graphs  
-- ✔️ Add & delete nodes and edges dynamically  
-- ✔️ Run Graph Algorithms  
-  - Breadth First Search (BFS)  
-  - Depth First Search (DFS)  
-  - Shortest Path (Depending on your implementation: Dijkstra / others)  
-- ✔️ Real-time visualization  
-- ✔️ Clean and user-friendly UI  
-- ✔️ Ideal for students, developers, and researchers
+### ✨ Features
+- 🧮 Polynomial Graph Plotting + Derivative Visualization  
+- 📐 Trigonometric Graphs (sin, cos, tan, sec, cosec, cot) with parameters  
+- ❤️ Parametric Curves (circle, heart, butterfly, rose)  
+- 🌍 3D Surface Plotting using mathematical expressions  
+- 📱 Fully Responsive UI for Mobile & Desktop  
+- ⚡ Fast & Reliable Backend using FastAPI  
+- 📊 Plotly powered interactive graphs  
 
 ---
 
-## 🛠️ Tech Stack
+### 🛠 Tech Stack
+**Frontend**
+- HTML, CSS, JavaScript  
+- Plotly.js
 
-- **Frontend:** HTML, CSS, JavaScript  
-(Replace/update depending on what you actually used: React / Node / Python etc.)
+**Backend**
+- FastAPI (Python)
+- NumPy
+- SymPy
 
+---
+
+### 🚀 How to Run Locally
+```bash
+pip install fastapi uvicorn numpy sympy
+uvicorn main:app --reload
