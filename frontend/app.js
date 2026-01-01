@@ -1,86 +1,123 @@
-// ----- Tabs -----
+/* ---------- TAB SWITCH ---------- */
 const tabs=document.querySelectorAll(".tab");
-const contents=document.querySelectorAll(".tabContent");
+const sections=document.querySelectorAll(".tabContent");
 
 tabs.forEach(tab=>{
   tab.addEventListener("click",()=>{
     tabs.forEach(t=>t.classList.remove("active"));
     tab.classList.add("active");
 
-    contents.forEach(c=>c.classList.remove("active"));
+    sections.forEach(s=>s.classList.remove("active"));
     document.getElementById(tab.dataset.tab).classList.add("active");
   });
 });
 
-const API = "https://graphvisualiser-1.onrender.com";
+/* ---------- API ---------- */
+const API="http://127.0.0.1:8000";
 
-// ----- Polynomial -----
+/* ---------- SAFE PLOT (Debounce + Prevent Double Plot) ---------- */
+let debounceTimer;
+let plotting=false;
+
+function safePlot(fn){
+  clearTimeout(debounceTimer);
+  debounceTimer=setTimeout(()=>{
+    if(plotting) return;
+    plotting=true;
+    fn().finally(()=> plotting=false);
+  },250);
+}
+
+/* ---------- POLYNOMIAL ---------- */
 async function plotPolynomial(){
-  let expr=document.getElementById("polyInput").value;
-  let xmin=document.getElementById("polyXMin").value;
-  let xmax=document.getElementById("polyXMax").value;
-  let ymin=document.getElementById("polyYMin").value;
-  let ymax=document.getElementById("polyYMax").value;
-  let derivative=document.getElementById("showDerivative").checked;
+  const expr=document.getElementById("polyInput").value;
 
-  let url=`${API}/polynomial?expr=${encodeURIComponent(expr)}&xmin=${xmin}&xmax=${xmax}&derivative=${derivative}`;
-  let res=await fetch(url);
-  let data=await res.json();
+  let xmin=Number(document.getElementById("polyXMin").value);
+  let xmax=Number(document.getElementById("polyXMax").value);
+  let ymin=Number(document.getElementById("polyYMin").value);
+  let ymax=Number(document.getElementById("polyYMax").value);
+  const derivative=document.getElementById("showDerivative").checked;
 
-  let traces=[{x:data.x,y:data.y,mode:"lines",name:"Polynomial"}];
+  if(xmin>xmax) [xmin,xmax]=[xmax,xmin];
+  if(ymin>ymax) [ymin,ymax]=[ymax,ymin];
+
+  const res=await fetch(
+    `${API}/polynomial?expr=${encodeURIComponent(expr)}&xmin=${xmin}&xmax=${xmax}&derivative=${derivative}`
+  );
+  const data=await res.json();
+
+  const traces=[{
+    x:data.x,y:data.y,mode:"lines",name:"Polynomial",line:{width:3}
+  }];
 
   if(data.derivative){
     traces.push({
-      x:data.x,
-      y:data.derivative,
-      mode:"lines",
-      name:"Derivative",
-      line:{dash:"dot"}
+      x:data.x,y:data.derivative,mode:"lines",
+      name:"Derivative",line:{dash:"dot",width:2}
     });
   }
 
-  Plotly.newPlot("polyGraph",traces,{
-    xaxis:{range:[xmin,xmax]},
-    yaxis:{range:[ymin,ymax]}
+  await Plotly.newPlot("polyGraph", traces,{
+    xaxis:{range:[xmin,xmax],fixedrange:true},
+    yaxis:{range:[ymin,ymax],fixedrange:true}
+  },{
+    responsive:true,
+    displayModeBar:false
   });
 }
 
-
-// ----- Trig -----
+/* ---------- TRIG ---------- */
 async function plotTrig(){
-  let func=document.getElementById("trigFunc").value;
-  let A=document.getElementById("amp").value;
-  let B=document.getElementById("freq").value;
-  let C=document.getElementById("phase").value;
-  let D=document.getElementById("shift").value;
+  const func=document.getElementById("trigFunc").value;
+  const A=document.getElementById("amp").value;
+  const B=document.getElementById("freq").value;
+  const C=document.getElementById("phase").value;
+  const D=document.getElementById("shift").value;
 
-  let url=`${API}/trig?func=${func}&A=${A}&B=${B}&C=${C}&D=${D}`;
-  let res=await fetch(url);
-  let data=await res.json();
+  const res=await fetch(`${API}/trig?func=${func}&A=${A}&B=${B}&C=${C}&D=${D}`);
+  const data=await res.json();
 
-  Plotly.newPlot("trigGraph",
-    [{x:data.x,y:data.y,mode:"lines"}]);
+  await Plotly.newPlot("trigGraph",[{
+    x:data.x,y:data.y,mode:"lines"
+  }],{
+    xaxis:{fixedrange:true},
+    yaxis:{fixedrange:true}
+  },{
+    responsive:true,
+    displayModeBar:false
+  });
 }
 
-
-// ----- Parametric -----
+/* ---------- PARAMETRIC ---------- */
 async function plotParametric(){
-  let type=document.getElementById("paramType").value;
-  let res=await fetch(`${API}/parametric?type=${type}`);
-  let data=await res.json();
+  const type=document.getElementById("paramType").value;
 
-  Plotly.newPlot("paramGraph",
-    [{x:data.x,y:data.y,mode:"lines"}]);
+  const res=await fetch(`${API}/parametric?type=${type}`);
+  const data=await res.json();
+
+  await Plotly.newPlot("paramGraph",[{
+    x:data.x,y:data.y,mode:"lines"
+  }],{
+    xaxis:{fixedrange:true},
+    yaxis:{fixedrange:true}
+  },{
+    responsive:true,
+    displayModeBar:false
+  });
 }
 
-
-// ----- 3D -----
+/* ---------- 3D ---------- */
 async function plot3D(){
-  let expr=document.getElementById("threeDFunc").value;
-  let res=await fetch(`${API}/surface?expr=${encodeURIComponent(expr)}`);
-  let data=await res.json();
+  const expr=document.getElementById("threeDFunc").value;
 
-  Plotly.newPlot("threeDGraph",[
+  const res=await fetch(`${API}/surface?expr=${encodeURIComponent(expr)}`);
+  const data=await res.json();
+
+  await Plotly.newPlot("threeDGraph",[
     {z:data.z,x:data.x,y:data.y,type:"surface"}
-  ]);
+  ],{},{
+    responsive:true,
+    scrollZoom:false,
+    displayModeBar:false
+  });
 }
