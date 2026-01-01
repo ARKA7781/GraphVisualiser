@@ -15,7 +15,28 @@ tabs.forEach(tab=>{
 /* ---------- API ---------- */
 const API="http://127.0.0.1:8000";
 
-/* ---------- SAFE PLOT (Debounce + Prevent Double Plot) ---------- */
+/* ---------- LOADER ---------- */
+const loaderBar=document.getElementById("loaderBar");
+const loaderProgress=document.getElementById("loaderProgress");
+
+function showLoader(){
+  loaderBar.style.display="block";
+  loaderProgress.style.width="0%";
+  let w=0;
+  loaderProgress.timer=setInterval(()=>{
+    if(w>=90) return;
+    w+=3;
+    loaderProgress.style.width=w+"%";
+  },80);
+}
+
+function hideLoader(){
+  clearInterval(loaderProgress.timer);
+  loaderProgress.style.width="100%";
+  setTimeout(()=> loaderBar.style.display="none",200);
+}
+
+/* ---------- SAFE PLOT ---------- */
 let debounceTimer;
 let plotting=false;
 
@@ -30,6 +51,8 @@ function safePlot(fn){
 
 /* ---------- POLYNOMIAL ---------- */
 async function plotPolynomial(){
+  showLoader();
+
   const expr=document.getElementById("polyInput").value;
 
   let xmin=Number(document.getElementById("polyXMin").value);
@@ -46,9 +69,7 @@ async function plotPolynomial(){
   );
   const data=await res.json();
 
-  const traces=[{
-    x:data.x,y:data.y,mode:"lines",name:"Polynomial",line:{width:3}
-  }];
+  const traces=[{x:data.x,y:data.y,mode:"lines",name:"Polynomial",line:{width:3}}];
 
   if(data.derivative){
     traces.push({
@@ -64,10 +85,14 @@ async function plotPolynomial(){
     responsive:true,
     displayModeBar:false
   });
+
+  hideLoader();
 }
 
 /* ---------- TRIG ---------- */
 async function plotTrig(){
+  showLoader();
+
   const func=document.getElementById("trigFunc").value;
   const A=document.getElementById("amp").value;
   const B=document.getElementById("freq").value;
@@ -86,10 +111,14 @@ async function plotTrig(){
     responsive:true,
     displayModeBar:false
   });
+
+  hideLoader();
 }
 
 /* ---------- PARAMETRIC ---------- */
 async function plotParametric(){
+  showLoader();
+
   const type=document.getElementById("paramType").value;
 
   const res=await fetch(`${API}/parametric?type=${type}`);
@@ -104,10 +133,14 @@ async function plotParametric(){
     responsive:true,
     displayModeBar:false
   });
+
+  hideLoader();
 }
 
 /* ---------- 3D ---------- */
 async function plot3D(){
+  showLoader();
+
   const expr=document.getElementById("threeDFunc").value;
 
   const res=await fetch(`${API}/surface?expr=${encodeURIComponent(expr)}`);
@@ -120,4 +153,6 @@ async function plot3D(){
     scrollZoom:false,
     displayModeBar:false
   });
+
+  hideLoader();
 }
